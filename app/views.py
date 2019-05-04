@@ -2,13 +2,14 @@
 """
 用于携带页面主逻辑
 """
+import simplejson
 from flask_login import login_user, login_required, logout_user
 from app import app
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, json
 from config import login_manager
 from models import User
 from dataInterface import getuserobj
-
+import api
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -55,3 +56,31 @@ def login():
 def logout():
     logout_user()
     return 'Logged out successfully!'
+
+
+def fullResponse(statu_dic, data):
+    return jsonify({'status': statu_dic, 'data': data})
+
+
+R200_OK = {'code': 200, 'message': 'OK all right.'}
+test_data = {
+    'api_name': 'stu_info',
+    'params': {
+        'sort': True,
+        'number': 3
+    },
+    'fields': "id,name,shu"
+}
+
+
+@app.route('/api', methods=['GET', 'POST'])
+def api_data():
+    try:
+        postdata = json.loads(request.get_data(as_text=True))  # 将bytes转换为Unicode,再转化为json的dict
+    except simplejson.errors.JSONDecodeError:
+        return "输入的格式非Json！"
+    check_key = "dict_keys(['api_name', 'params', 'fields'])"  # 用于验证json 的键值是否正确
+    if str(postdata.keys()) != check_key:
+        promptstring = "输入的json格式错误！"
+        return promptstring
+    return api.api(postdata).data
