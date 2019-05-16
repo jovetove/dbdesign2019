@@ -1,5 +1,5 @@
 from flask import Response, json
-import dataInterface
+import web.dataInterface
 
 class api:
     """
@@ -43,7 +43,7 @@ class api:
         """
         stu_id = self.dict_info['params']['stu_id']
         # print('stu_id = ', stu_id)
-        values = dataInterface.getstuinfo(stu_id=stu_id)
+        values = web.dataInterface.getstuinfo(stu_id=stu_id)
         # print(self.dict_info)
         keys = ('ID', 'Name', 'Sex', 'Dept_name', 'Cred', 'GPA', 'Tel', 'E-mail')
         data = dict(zip(keys, values))

@@ -8,9 +8,9 @@ from flask_login import login_user, login_required, logout_user
 from web import app
 from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, json
 from config import login_manager
-from models import User
-from dataInterface import getuserobj
-import api
+from web.models import User
+from web.dataInterface import getuserobj
+import web.api
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -85,4 +85,4 @@ def api_data():
     if str(postdata.keys()) != check_key:
         promptstring = "输入的json格式错误！"
         return promptstring
-    return api.api(postdata).data
+    return web.api.api(postdata).data

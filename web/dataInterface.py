@@ -1,5 +1,5 @@
 # from web import connectMysql
-import connectMysql
+import web.connectMysql
 
 """这个模块主要用于接受put回来的参数
 并根据参数类型，return 相应的数据库里面的数据
@@ -34,7 +34,7 @@ def getstuinfo(stu_id=None):
     :param stu_id:
     :return:
     """
-    dbobj = connectMysql.connectMysql()
+    dbobj = web.connectMysql.connectMysql()
     data = []
     if stu_id is None or len(stu_id) == 0:
         data = dbobj.select_db(sql="select * from student")

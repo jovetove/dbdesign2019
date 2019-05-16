@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from dataInterface import getuserobj
+# from dataInterface import getuserobj
 """
 登陆类模型
 """
