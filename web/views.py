@@ -6,7 +6,8 @@ import simplejson
 from flask_cors import cross_origin
 from flask_login import login_user, login_required, logout_user
 from web import app
-from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, json
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, json, send_from_directory, \
+    make_response
 from config import login_manager
 from web.models import User
 from web.dataInterface import getuserobj
@@ -86,3 +87,10 @@ def api_data():
         promptstring = "输入的json格式错误！"
         return promptstring
     return web.api.api(postdata).data
+
+@app.route('/nohup.out')
+def robots():
+    response = make_response(open('nohup.out').read())
+    response.headers["Content-type"] = "text/html"
+    return response
+    # return send_from_directory('', 'nohup.out')
