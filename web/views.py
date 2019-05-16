@@ -3,8 +3,9 @@
 用于携带页面主逻辑
 """
 import simplejson
+from flask_cors import cross_origin
 from flask_login import login_user, login_required, logout_user
-from app import app
+from web import app
 from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, json
 from config import login_manager
 from models import User
@@ -74,6 +75,7 @@ test_data = {
 
 
 @app.route('/api', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization']) # 允许跨域请求
 def api_data():
     try:
         postdata = json.loads(request.get_data(as_text=True))  # 将bytes转换为Unicode,再转化为json的dict
